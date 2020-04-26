@@ -1,0 +1,47 @@
+ifOperator \ if
+assignmentOperator \ :=
+ifOperator \ if
+thenOperator \ then
+openedBrace \ (
+openedBrace \ (
+star \ *
+plus \ +
+idenX1 \ x1
+idenx23 \ x23
+
+Error: Unexepected identifier 1 in sentence 0 in  position 30
+
+idenX1 \ x1
+plus \ +
+idenX2 \ x2
+comma \ ,
+ifOperator \ if
+ifOperator \ if
+openedBrace \ (
+openedBrace \ (
+openedBrace \ (
+star \ *
+ifOperator \ if
+openedBrace \ (
+idenX1 \ x1
+plus \ +
+idenx23 \ x23
+closedBrace \ )
+star \ *
+idenX2 \ x2
+thenOperator \ then
+idenX2 \ x2
+idenX2 \ x2
+assignmentOperator \ :=
+openedBrace \ (
+idenX2 \ x2
+plus \ +
+idenX2 \ x2
+plus \ +
+idenx23 \ x23
+closedBrace \ )
+star \ *
+idenX2 \ x2
+
+Error: Unexepected identifier { in sentence 4 in  position 28
+
