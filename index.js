@@ -1,7 +1,13 @@
 const { Lexer } = require('./lexer');
 
-const lexer = new Lexer();
+const options = {
+    inputFilePath: './input.txt',
+    outputFilePath: './output.txt'
+};
+const lexer = new Lexer(options);
 
 lexer.readInput();
 lexer.cleanOutput();
-lexer.getToken();
+while (!lexer.isEnd()) {
+    lexer.getToken();
+};

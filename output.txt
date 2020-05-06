@@ -8,6 +8,7 @@ star \ *
 plus \ +
 idenX1 \ x1
 idenx23 \ x23
+idenX2 \ x2
 
 Error: Unexepected identifier 1 in sentence 0 in  position 30
 
@@ -26,6 +27,7 @@ openedBrace \ (
 idenX1 \ x1
 plus \ +
 idenx23 \ x23
+idenX2 \ x2
 closedBrace \ )
 star \ *
 idenX2 \ x2
@@ -39,6 +41,7 @@ plus \ +
 idenX2 \ x2
 plus \ +
 idenx23 \ x23
+idenX2 \ x2
 closedBrace \ )
 star \ *
 idenX2 \ x2

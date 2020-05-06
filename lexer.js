@@ -1,9 +1,9 @@
 const fs = require('fs');
 
 class Lexer {
-    constructor() {
-        this.inputFilePath = './input.txt';
-        this.outputFilePath = './output.txt';
+    constructor(options) {
+        this.inputFilePath = options.inputFilePath;
+        this.outputFilePath = options.outputFilePath;
         this.currentLineNumber = 0;
         this.headPosition = 0;
         this.allLines = [];
@@ -37,6 +37,7 @@ class Lexer {
         displayName += '\r\n';
         console.log(displayName);
         this.appendToFile(displayName);
+        return displayName;
     }
 
     writeError() {
@@ -67,45 +68,59 @@ class Lexer {
         this.headPosition--;
     }
 
+    isEnd() {
+        let currentElement = this.getCurrentElement();
+        let k = 1;
+        while (currentElement === ' ') {
+            currentElement = this.getCurrentElement();
+            k++;
+        }
+        for (let i = 0; i < k; i++) {
+            this.moveHeadToPrevPosition();
+        }
+        const result = currentElement === "";
+        return result;
+    }
+
     getToken() {
         let currentElement = this.getCurrentElement();
         while (currentElement === ' ') {
             currentElement = this.getCurrentElement();
         }
         if (currentElement === ':') {
-            this.processAssignment();
+            return this.processAssignment();
         }
 
         else if (currentElement === 'i') {
-            this.processIf();
+            return this.processIf();
         }
 
         else if (currentElement === 't') {
-            this.processThen();
+            return this.processThen();
         }
 
         else if (currentElement === '(') {
-            this.processOpenedBrace();
+            return this.processOpenedBrace();
         }
 
         else if (currentElement === ')') {
-            this.processClosedBrace();
+            return this.processClosedBrace();
         }
 
         else if (currentElement === '*') {
-            this.processStar();
+            return this.processStar();
         }
 
         else if (currentElement === '+') {
-            this.processPlus();
+            return this.processPlus();
         }
 
         else if (currentElement === 'x') {
-            this.processIden();
+            return this.processIden();
         }
 
         else if (currentElement === ',') {
-            this.processComma();
+            return this.processComma();
         }
 
         else if (currentElement === '') {
@@ -113,8 +128,7 @@ class Lexer {
         }
 
         else {
-            this.writeLexem('', '', `Unexepected identifier ${currentElement}`);
-            this.getToken();
+            return this.writeLexem('', '', `Unexepected identifier ${currentElement}`);
         }
     }
 
@@ -122,12 +136,10 @@ class Lexer {
         const currentElement = this.getCurrentElement();
         const assignmentToken = ':' + currentElement;
         if (assignmentToken !== LexemEnum.assignmentOperator) {
-            this.writeLexem('', '', 'Unepected itentifier: "expected := operator"');
-            this.getToken();
+            return this.writeLexem('', '', 'Unepected itentifier: "expected := operator"');
         }
         else {
-            this.writeLexem('assignmentOperator', LexemEnum.assignmentOperator);
-            this.getToken();
+            return this.writeLexem('assignmentOperator', LexemEnum.assignmentOperator);
         }
     }
 
@@ -135,12 +147,10 @@ class Lexer {
         const currentElement = this.getCurrentElement();
         const ifToken = 'i' + currentElement;
         if (ifToken !== LexemEnum.ifOperator) {
-            this.writeLexem('', '', 'Unepected itentifier: "expected if operator"');
-            this.getToken();
+            return this.writeLexem('', '', 'Unepected itentifier: "expected if operator"');
         }
         else {
-            this.writeLexem('ifOperator', LexemEnum.ifOperator);
-            this.getToken();
+            return this.writeLexem('ifOperator', LexemEnum.ifOperator);
         }
     }
 
@@ -149,34 +159,27 @@ class Lexer {
         for (let i = 1; i < LexemEnum.thenOperator.length; i++) {
             const element = this.getCurrentElement();
             if (token + element !== LexemEnum.thenOperator.substr(0, i + 1)) {
-                this.writeLexem('', '', 'Unepected itentifier: "expected then operator"');
-                this.getToken();
-                return;
+                return this.writeLexem('', '', 'Unepected itentifier: "expected then operator"');
             }
             token += element;
         }
-        this.writeLexem('thenOperator', LexemEnum.thenOperator);
-        this.getToken();
+        return this.writeLexem('thenOperator', LexemEnum.thenOperator);
     }
 
     processOpenedBrace() {
-        this.writeLexem('openedBrace', LexemEnum.openedBrace);
-        this.getToken();
+        return this.writeLexem('openedBrace', LexemEnum.openedBrace);
     }
 
     processClosedBrace() {
-        this.writeLexem('closedBrace', LexemEnum.closedBrace);
-        this.getToken();
+        return this.writeLexem('closedBrace', LexemEnum.closedBrace);
     }
 
     processStar() {
-        this.writeLexem('star', LexemEnum.star);
-        this.getToken();
+        return this.writeLexem('star', LexemEnum.star);
     }
 
     processPlus() {
-        this.writeLexem('plus', LexemEnum.plus);
-        this.getToken();
+        return this.writeLexem('plus', LexemEnum.plus);
     }
 
     processIden() {
@@ -191,24 +194,20 @@ class Lexer {
                 currentElement = this.getCurrentElement();
                 if (lexem + currentElement === LexemEnum.idenX23) {
                     this.writeLexem('idenx23', LexemEnum.idenX23);
-                    return this.getToken();
                 }
                 else {
                     this.moveHeadToPrevPosition();
                 }
             }
-            this.writeLexem(lexenName, lexem);
-            this.getToken();
+            return this.writeLexem(lexenName, lexem);
         }
         else {
-            this.writeLexem('', '', `Unexpected identifier ${lexem}`);
-            this.getToken();
+            return this.writeLexem('', '', `Unexpected identifier ${lexem}`);
         }
     }
 
     processComma() {
-        this.writeLexem('comma', LexemEnum.comma);
-        this.getToken();
+        return this.writeLexem('comma', LexemEnum.comma);
     }
 }
 
